@@ -12,7 +12,7 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { useToast } from "@/components/ui/use-toast"
+import { useToast } from "@/hooks/use-toast"
 import { FadeIn, FadeInStagger, SlideIn } from "@/components/shared/motion"
 import { Loader2, ArrowRight, Search, Mail } from "lucide-react"
 import { useState } from "react"
@@ -90,10 +90,11 @@ export default function BlogPage() {
       })
 
       form.reset()
-    } catch (error) {
+    } catch (err: unknown) {
+      const error = err as Error
       toast({
         title: "Error",
-        description: "Failed to subscribe. Please try again later.",
+        description: error.message || "Failed to subscribe. Please try again later.",
         variant: "destructive",
       })
     } finally {

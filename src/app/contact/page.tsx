@@ -16,7 +16,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Github, Twitter, Linkedin, Mail, Loader2 } from "lucide-react"
 import Link from "next/link"
-import { useToast } from "@/components/ui/use-toast"
+import { useToast } from "@/hooks/use-toast"
 import { FadeIn, SlideIn } from "@/components/shared/motion"
 import { useState } from "react"
 
@@ -84,14 +84,15 @@ export default function ContactPage() {
 
       toast({
         title: "Message sent!",
-        description: "Thank you for your message. I'll get back to you soon.",
+        description: "Thank you for your message. I&apos;ll get back to you soon.",
       })
 
       form.reset()
-    } catch (error) {
+    } catch (err: unknown) {
+      const error = err as Error
       toast({
         title: "Error",
-        description: "Failed to send message. Please try again later.",
+        description: error.message || "Failed to send message. Please try again later.",
         variant: "destructive",
       })
     } finally {
@@ -109,7 +110,7 @@ export default function ContactPage() {
         <FadeIn>
           <div>
             <p className="text-lg mb-6">
-              I'm always interested in hearing about new projects and opportunities.
+              I&apos;m always interested in hearing about new projects and opportunities.
               Feel free to get in touch with me using the form or through social media.
             </p>
 

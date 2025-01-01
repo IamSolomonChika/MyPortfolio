@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -10,8 +10,8 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { useToast } from "@/components/ui/use-toast"
-import { Plus, Pencil, Trash2, Eye } from "lucide-react"
+import { useToast } from "@/hooks/use-toast"
+import { Plus, Trash2 } from "lucide-react"
 import { format } from "date-fns"
 import TiptapEditor from "@/components/editor/TiptapEditor"
 import PostPreview from "@/components/preview/PostPreview"
@@ -33,7 +33,6 @@ export default function DashboardPage() {
   const [posts, setPosts] = useState<Post[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [isCreating, setIsCreating] = useState(false)
-  const [isPreview, setIsPreview] = useState(false)
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -42,17 +41,14 @@ export default function DashboardPage() {
     scheduledFor: "",
   })
 
-  useEffect(() => {
-    fetchPosts()
-  }, [])
-
-  const fetchPosts = async () => {
+  const fetchPosts = useCallback(async () => {
     try {
       setIsLoading(true)
       const response = await fetch("/api/posts")
       const data = await response.json()
       setPosts(data.posts || [])
-    } catch (error) {
+    } catch (err: unknown) {
+      const error = err as Error
       console.error("Failed to fetch posts:", error)
       toast({
         title: "Error",
@@ -62,7 +58,11 @@ export default function DashboardPage() {
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [toast])
+
+  useEffect(() => {
+    fetchPosts()
+  }, [fetchPosts])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -98,10 +98,11 @@ export default function DashboardPage() {
         scheduledFor: "",
       })
       fetchPosts()
-    } catch (error) {
+    } catch (err: unknown) {
+      const error = err as Error
       toast({
         title: "Error",
-        description: "Failed to create post",
+        description: error.message || "Failed to create post",
         variant: "destructive",
       })
     }
@@ -125,10 +126,11 @@ export default function DashboardPage() {
       })
 
       fetchPosts()
-    } catch (error) {
+    } catch (err: unknown) {
+      const error = err as Error
       toast({
         title: "Error",
-        description: "Failed to delete post",
+        description: error.message || "Failed to delete post",
         variant: "destructive",
       })
     }

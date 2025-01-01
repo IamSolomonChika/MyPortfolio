@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { ImagePlus } from "lucide-react"
-import { useToast } from "@/components/ui/use-toast"
+import { useToast } from "@/hooks/use-toast"
 
 interface ImageUploadProps {
   onUpload: (url: string) => void
@@ -13,21 +13,12 @@ export function ImageUpload({ onUpload }: ImageUploadProps) {
   const [isUploading, setIsUploading] = useState(false)
   const { toast } = useToast()
 
-  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (!file) return
-
-    if (!file.type.includes('image')) {
-      toast({
-        title: "Invalid file type",
-        description: "Please upload an image file",
-        variant: "destructive",
-      })
-      return
-    }
-
+  async function onSubmit(event: React.ChangeEvent<HTMLInputElement>) {
     try {
       setIsUploading(true)
+      const file = event.target.files?.[0]
+      if (!file) return
+
       const formData = new FormData()
       formData.append('file', file)
 
@@ -36,19 +27,22 @@ export function ImageUpload({ onUpload }: ImageUploadProps) {
         body: formData,
       })
 
-      if (!response.ok) throw new Error('Upload failed')
+      if (!response.ok) {
+        throw new Error('Failed to upload image')
+      }
 
       const data = await response.json()
       onUpload(data.url)
-      
       toast({
         title: "Success",
         description: "Image uploaded successfully",
       })
-    } catch (error) {
+    } catch (err: unknown) {
+      const error = err as Error
+      console.error("Upload error:", error)
       toast({
         title: "Error",
-        description: "Failed to upload image",
+        description: error.message || "Failed to upload image",
         variant: "destructive",
       })
     } finally {
@@ -72,7 +66,7 @@ export function ImageUpload({ onUpload }: ImageUploadProps) {
         type="file"
         accept="image/*"
         className="hidden"
-        onChange={handleUpload}
+        onChange={onSubmit}
       />
     </div>
   )

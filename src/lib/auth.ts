@@ -1,5 +1,13 @@
-import { NextAuthOptions } from "next-auth"
+import { NextAuthOptions, User } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
+
+declare module "next-auth" {
+  interface Session {
+    user: User & {
+      id: string
+    }
+  }
+}
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -38,8 +46,8 @@ export const authOptions: NextAuthOptions = {
       return token
     },
     async session({ session, token }) {
-      if (token) {
-        session.user.id = token.id
+      if (session.user && token) {
+        session.user.id = token.id as string
       }
       return session
     }

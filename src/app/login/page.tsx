@@ -12,7 +12,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { useToast } from "@/components/ui/use-toast"
+import { useToast } from "@/hooks/use-toast"
 
 export default function LoginPage() {
   const router = useRouter()
@@ -23,31 +23,27 @@ export default function LoginPage() {
     password: "",
   })
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setIsLoading(true)
-
     try {
+      setIsLoading(true)
       const result = await signIn("credentials", {
-        redirect: false,
         email: formData.email,
         password: formData.password,
+        redirect: false,
       })
 
-      if (result?.error) {
-        toast({
-          title: "Error",
-          description: "Invalid credentials",
-          variant: "destructive",
-        })
-        return
+      if (!result?.ok) {
+        throw new Error("Invalid credentials")
       }
 
       router.push("/dashboard")
-    } catch (error) {
+    } catch (err: unknown) {
+      const error = err as Error
+      console.error("Login error:", error)
       toast({
         title: "Error",
-        description: "Something went wrong",
+        description: error.message || "Failed to login",
         variant: "destructive",
       })
     } finally {
