@@ -415,6 +415,18 @@
     jsbi "^4.3.0"
     tslib "^2.4.1"
 
+"@lottiefiles/dotlottie-react@^0.12.0":
+  version "0.12.0"
+  resolved "https://registry.yarnpkg.com/@lottiefiles/dotlottie-react/-/dotlottie-react-0.12.0.tgz#2accb771470fbc38771e7872c1f29353c00e7dde"
+  integrity sha512-33Tsd67vlotrm43R8oko30Krwyuqb0YdOLra7L5m2mVfrTvDPEDBt8jfjgiveoLJ0jG/FlTLiCPXi/vCaBSXrg==
+  dependencies:
+    "@lottiefiles/dotlottie-web" "0.38.2"
+
+"@lottiefiles/dotlottie-web@0.38.2":
+  version "0.38.2"
+  resolved "https://registry.yarnpkg.com/@lottiefiles/dotlottie-web/-/dotlottie-web-0.38.2.tgz#fa97288443f695f6bb76f9e632eb83cd255a2874"
+  integrity sha512-01d+UjJ8NG7ZStYQxtb8FPzknzGmauG7gEkcH+wHfSdiSQJY9PoBNVSTB9V6F5hAnmFqOxaocTtd7TIEEnzMnA==
+
 "@mdx-js/esbuild@^2.0.0":
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/@mdx-js/esbuild/-/esbuild-2.3.0.tgz#97f2f1b854d904c50bcd0a219b3664657f4fe8c3"
