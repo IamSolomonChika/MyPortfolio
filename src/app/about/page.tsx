@@ -2,7 +2,6 @@ import { Metadata } from "next";
 import { constructMetadata } from "@/lib/metadata";
 import { Card, CardContent } from "@/components/ui/card";
 import { FadeIn, FadeInStagger, SlideIn } from "@/components/shared/motion";
-import blockChain from "@/components/lottieFiles/Blockchain";
 
 export const metadata: Metadata = constructMetadata({
   title: "About",
@@ -65,7 +64,6 @@ export default function AboutPage() {
       </SlideIn>
       <div className="prose dark:prose-invert max-w-none mb-12">
         <FadeIn>
-          <blockChain/>
           <p className="text-lg mb-4">
             I am a Full-stack Blockchain Developer, Digital Marketer, Python
             Programmer, and Machine Learning Engineer passionate about creating
