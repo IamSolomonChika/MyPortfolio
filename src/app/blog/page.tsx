@@ -24,7 +24,7 @@ const formSchema = z.object({
     message: "Please enter a valid email address.",
   }),
 })
-import { getBlogPosts } from '@/lib/mdx'
+// import { getBlogPosts } from '@/lib/mdx'
 
 const blogPosts = [
   {
