@@ -24,6 +24,7 @@ const formSchema = z.object({
     message: "Please enter a valid email address.",
   }),
 })
+import { getBlogPosts } from '@/lib/mdx'
 
 const blogPosts = [
   {
@@ -154,6 +155,7 @@ export default function BlogPage() {
 
       <FadeInStagger>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        
           {filteredPosts.map((post) => (
             <FadeIn key={post.slug}>
               <Link href={`/blog/${post.slug}`}>

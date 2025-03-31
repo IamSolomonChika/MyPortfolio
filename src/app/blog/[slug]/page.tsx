@@ -68,8 +68,9 @@ export default async function BlogPostPage({ params }: Props) {
 
   return (
     <article className="container py-12 prose dark:prose-invert max-w-3xl mx-auto">
-      <h1>{post.title}</h1>
-      <div className="text-muted-foreground">
+      <h1 className="font-bold text-2xl">{post.title}</h1>
+
+      <div className="text-muted-foreground mb-10">
         {new Date(post.date).toLocaleDateString("en-US", {
           year: "numeric",
           month: "long",
